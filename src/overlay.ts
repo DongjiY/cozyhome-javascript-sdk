@@ -9,6 +9,7 @@ export class OverlayManager {
   constructor() {
     this.containerElement = createContainer();
     this.backdropElement = createBackdrop();
+    this.backdropElement.addEventListener("click", () => this.closePopup());
     this.frameElement = createFrame();
     this.containerElement.attachTo(document.body);
   }

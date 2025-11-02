@@ -46,18 +46,31 @@ export function createFrame(): Mountable {
   mockIframe.id = "cozyhome-frame";
   styleElement(mockIframe, {
     width: "800px",
-    height: "600px",
+    height: "0px",
     background: "black",
     zIndex: "1",
     borderRadius: "12px",
+    borderTop: "3px solid black",
+    borderBottom: "3px solid black",
   });
   return new DelayableAnimatableElement({
     element: mockIframe,
     animationDefinition: {
       keyFrames: [
-        { transform: "rotate(0) scale(1)" },
-        { transform: "rotate(360deg) scale(0)" },
+        { width: "0px", height: "0px" },
+        { width: "800px", height: "0px", offset: 0.5 },
+        {
+          width: "800px",
+          height: "600px",
+          offset: 1,
+          borderTop: "0px",
+          borderBottom: "0px",
+        },
       ],
+      options: {
+        fill: "forwards",
+        easing: "ease-in-out",
+      },
     },
   });
 }
