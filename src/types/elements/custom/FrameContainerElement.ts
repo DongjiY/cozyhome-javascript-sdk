@@ -1,6 +1,6 @@
 import { AnimateFadeIn } from "../../../utils/animations";
 import { DelayableAnimatableElement } from "../DelayableAnimatableElement";
-import { AnimationDefintion } from "../index";
+import { AnimationDefintion } from "../AnimationDefinition";
 import { FrameContentElement } from "./FrameContentElement";
 
 export class FrameContainerElement extends DelayableAnimatableElement {

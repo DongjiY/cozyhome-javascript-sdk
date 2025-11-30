@@ -1,9 +1,6 @@
 import { Mountable } from "../Mountable";
 export declare class FrameContentElement extends Mountable<HTMLIFrameElement> {
-    private readonly handleMessage;
-    private readonly handleExpandPopup;
-    private readonly handleClosePopup;
-    private readonly handleContractPopup;
+    private readonly messageManager;
     constructor({ element, methods, }: {
         element: HTMLIFrameElement;
         methods: {
@@ -12,10 +9,8 @@ export declare class FrameContentElement extends Mountable<HTMLIFrameElement> {
             contractPopup: VoidFunction;
         };
     });
-    private onMessage;
     private handleFramePageStyled;
     private onLoaded;
     protected onAttached(): void;
     detach(): void;
-    destroy(): void;
 }

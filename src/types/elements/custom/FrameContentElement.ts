@@ -1,12 +1,11 @@
+import {
+  getMessageManagerInstance,
+  MessageManager,
+} from "../../../message/MessageManager";
 import { Mountable } from "../Mountable";
 
-const EXTERNAL_URL = "http://localhost:3000";
-
 export class FrameContentElement extends Mountable<HTMLIFrameElement> {
-  private readonly handleMessage: (event: MessageEvent) => void;
-  private readonly handleExpandPopup: VoidFunction;
-  private readonly handleClosePopup: VoidFunction;
-  private readonly handleContractPopup: VoidFunction;
+  private readonly messageManager: MessageManager;
 
   constructor({
     element,
@@ -20,27 +19,14 @@ export class FrameContentElement extends Mountable<HTMLIFrameElement> {
     };
   }) {
     super(element);
-    this.handleClosePopup = methods.onClose;
-    this.handleContractPopup = methods.contractPopup;
-    this.handleExpandPopup = methods.expandPopup;
-    this.handleMessage = this.onMessage.bind(this);
-    window.addEventListener("message", this.handleMessage);
-  }
-
-  private onMessage(event: MessageEvent): void {
-    if (event.origin !== EXTERNAL_URL) return;
-
-    if (event.data.type === "CLOSE") {
-      this.handleClosePopup();
-    } else if (event.data.type === "EXPAND") {
-      this.handleExpandPopup();
-    } else if (event.data.type === "CONTRACT") {
-      this.handleContractPopup();
-    } else if (event.data.type === "SETUP") {
-      this.handleFramePageStyled();
-    } else {
-      console.warn("Recv an unexpected message type:", event.data.type);
-    }
+    this.messageManager = getMessageManagerInstance();
+    this.messageManager.addListener("CLOSE", methods.onClose);
+    this.messageManager.addListener("CONTRACT", methods.contractPopup);
+    this.messageManager.addListener("EXPAND", methods.expandPopup);
+    this.messageManager.addListener(
+      "SETUP",
+      this.handleFramePageStyled.bind(this)
+    );
   }
 
   private handleFramePageStyled(): void {
@@ -49,12 +35,8 @@ export class FrameContentElement extends Mountable<HTMLIFrameElement> {
   }
 
   private onLoaded(): void {
-    this.element.contentWindow?.postMessage(
-      {
-        type: "SETUP",
-      },
-      EXTERNAL_URL
-    );
+    if (this.element.contentWindow)
+      this.messageManager.resolveWindow(this.element.contentWindow);
   }
 
   protected onAttached(): void {
@@ -62,11 +44,9 @@ export class FrameContentElement extends Mountable<HTMLIFrameElement> {
   }
 
   public detach(): void {
+    this.messageManager.close();
+
     this.element.style.opacity = "0";
     this.element.style.visibility = "hidden";
-  }
-
-  public destroy(): void {
-    window.removeEventListener("message", this.handleMessage);
   }
 }

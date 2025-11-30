@@ -1,4 +1,4 @@
-import { AnimationDefintion } from "../types/elements/index";
+import { AnimationDefintion } from "../types/elements/AnimationDefinition";
 
 export function AnimateTvOpenIn(w: number, h: number): AnimationDefintion {
   return {
