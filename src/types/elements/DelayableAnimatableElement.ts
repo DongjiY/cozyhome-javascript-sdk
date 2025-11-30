@@ -2,7 +2,7 @@ import { AnimationDefintion } from "./index";
 import { Mountable } from "./Mountable";
 
 export class DelayableAnimatableElement extends Mountable {
-  private readonly animation: Animation;
+  private animation: Animation;
 
   constructor({
     animationDefinition,
@@ -12,16 +12,33 @@ export class DelayableAnimatableElement extends Mountable {
     element: HTMLElement;
   }) {
     super(element);
+    this.animation = DelayableAnimatableElement.createAnimation(
+      this.element,
+      animationDefinition
+    );
+  }
+
+  private static createAnimation(
+    element: HTMLElement,
+    animationDefinition: AnimationDefintion
+  ): Animation {
     const resolvedOptions: KeyframeEffectOptions = {
       ...animationDefinition.options,
       duration: animationDefinition.options?.duration ?? 1000,
     };
     const keyFrameEffect = new KeyframeEffect(
-      this.element,
+      element,
       animationDefinition.keyFrames,
       resolvedOptions
     );
-    this.animation = new Animation(keyFrameEffect);
+    return new Animation(keyFrameEffect);
+  }
+
+  public updateAnimation(animationDefinition: AnimationDefintion): void {
+    this.animation = DelayableAnimatableElement.createAnimation(
+      this.element,
+      animationDefinition
+    );
   }
 
   protected onAttached(): void {

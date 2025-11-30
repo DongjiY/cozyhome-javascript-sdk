@@ -1,6 +1,6 @@
-import { Mountable } from "../elements/Mountable";
-import { createBackdrop, createContainer, createFrame } from "../../utils/dom";
-import { FrameContainerElement } from "../elements/custom/FrameContainerElement";
+import { Mountable } from "../types/elements/Mountable";
+import { createBackdrop, createContainer, createFrame } from "../utils/dom";
+import { FrameContainerElement } from "../types/elements/custom/FrameContainerElement";
 
 export class OverlayManager {
   private readonly containerElement: Mountable;
@@ -15,9 +15,13 @@ export class OverlayManager {
     this.frameContainerElement = createFrame(this.closePopup.bind(this));
   }
 
-  public openPopup(): void {
+  public openPopup(options: { shouldAnimate: boolean }): void {
+    const { shouldAnimate } = options;
+
     this.containerElement.attachTo(document.body);
     this.backdropElement.attachTo(this.containerElement);
+
+    this.frameContainerElement.setShouldAnimate(shouldAnimate);
     this.frameContainerElement.attachTo(this.containerElement);
 
     const body = document.body;

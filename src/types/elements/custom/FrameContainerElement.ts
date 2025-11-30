@@ -1,3 +1,4 @@
+import { AnimateFadeIn } from "../../../utils/animations";
 import { DelayableAnimatableElement } from "../DelayableAnimatableElement";
 import { AnimationDefintion } from "../index";
 import { FrameContentElement } from "./FrameContentElement";
@@ -30,6 +31,12 @@ export class FrameContainerElement extends DelayableAnimatableElement {
 
   public setIsOpened(isOpened: boolean): void {
     this.isOpened = isOpened;
+  }
+
+  public setShouldAnimate(shouldAnimate: boolean): void {
+    if (!shouldAnimate) {
+      super.updateAnimation(AnimateFadeIn());
+    }
   }
 
   public expand(): void {
@@ -65,6 +72,8 @@ export class FrameContainerElement extends DelayableAnimatableElement {
       `${FrameContainerElement.height}px`
     );
     this.element.style.setProperty("border-radius", "12px", "important");
+
+    this.frameContent.detach();
     super.detach();
   }
 
@@ -100,6 +109,9 @@ function createFrameContent(methods: {
     boxSizing: "border-box",
     color: "white",
     border: "none",
+    opacity: "0",
+    visibility: "hidden",
+    backgroundColor: "black",
   });
   return frameContentEl;
 }

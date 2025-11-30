@@ -11,6 +11,7 @@ export declare class FrameContainerElement extends DelayableAnimatableElement {
         onClose: VoidFunction;
     });
     setIsOpened(isOpened: boolean): void;
+    setShouldAnimate(shouldAnimate: boolean): void;
     expand(): void;
     contract(): void;
     detach(): void;

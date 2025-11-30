@@ -36,9 +36,16 @@ export class FrameContentElement extends Mountable<HTMLIFrameElement> {
       this.handleExpandPopup();
     } else if (event.data.type === "CONTRACT") {
       this.handleContractPopup();
+    } else if (event.data.type === "SETUP") {
+      this.handleFramePageStyled();
     } else {
       console.warn("Recv an unexpected message type:", event.data.type);
     }
+  }
+
+  private handleFramePageStyled(): void {
+    this.element.style.opacity = "1";
+    this.element.style.visibility = "visible";
   }
 
   private onLoaded(): void {
@@ -52,6 +59,11 @@ export class FrameContentElement extends Mountable<HTMLIFrameElement> {
 
   protected onAttached(): void {
     this.element.onload = this.onLoaded.bind(this);
+  }
+
+  public detach(): void {
+    this.element.style.opacity = "0";
+    this.element.style.visibility = "hidden";
   }
 
   public destroy(): void {

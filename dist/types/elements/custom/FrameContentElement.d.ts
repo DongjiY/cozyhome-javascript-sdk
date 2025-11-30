@@ -13,7 +13,9 @@ export declare class FrameContentElement extends Mountable<HTMLIFrameElement> {
         };
     });
     private onMessage;
+    private handleFramePageStyled;
     private onLoaded;
     protected onAttached(): void;
+    detach(): void;
     destroy(): void;
 }

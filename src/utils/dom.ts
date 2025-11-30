@@ -1,8 +1,7 @@
 import { Mountable } from "../types/elements/Mountable";
-import { DelayableAnimatableElement } from "../types/elements/DelayableAnimatableElement";
 import { BaseElement } from "../types/elements/BaseElement";
-import { FrameContentElement } from "../types/elements/custom/FrameContentElement";
 import { FrameContainerElement } from "../types/elements/custom/FrameContainerElement";
+import { AnimateTvOpenIn } from "./animations";
 
 export function createContainer(): Mountable {
   const container = document.createElement("div");
@@ -45,35 +44,10 @@ export function createFrame(onClose: VoidFunction): FrameContainerElement {
   const frameEl = new FrameContainerElement({
     element: frame,
     onClose,
-    animationDefinition: {
-      keyFrames: [
-        {
-          width: "0px",
-          height: "0px",
-          borderTop: "3px solid black",
-          borderBottom: "3px solid black",
-        },
-        {
-          width: `${FrameContainerElement.width}px`,
-          height: "0px",
-          offset: 0.5,
-          borderTop: "3px solid black",
-          borderBottom: "3px solid black",
-        },
-        {
-          width: `${FrameContainerElement.width}px`,
-          height: `${FrameContainerElement.height}px`,
-          offset: 1,
-          borderTop: "0px",
-          borderBottom: "0px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
-        },
-      ],
-      options: {
-        fill: "forwards",
-        easing: "ease-in-out",
-      },
-    },
+    animationDefinition: AnimateTvOpenIn(
+      FrameContainerElement.width,
+      FrameContainerElement.height
+    ),
   });
   frameEl.style({
     width: `${FrameContainerElement.width}px`,
