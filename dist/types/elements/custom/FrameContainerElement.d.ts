@@ -1,5 +1,5 @@
 import { DelayableAnimatableElement } from "../DelayableAnimatableElement";
-import { AnimationDefintion } from "../index";
+import { AnimationDefintion } from "../AnimationDefinition";
 export declare class FrameContainerElement extends DelayableAnimatableElement {
     static width: number;
     static height: number;

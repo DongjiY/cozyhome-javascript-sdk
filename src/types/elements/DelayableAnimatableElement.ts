@@ -1,4 +1,4 @@
-import { AnimationDefintion } from "./index";
+import { AnimationDefintion } from "./AnimationDefinition";
 import { Mountable } from "./Mountable";
 
 export class DelayableAnimatableElement extends Mountable {
