@@ -23,7 +23,7 @@ export class MessageManager {
   private sessionId: Promise<string>;
   private resolveSessionId: ((s: string) => void) | null = null;
 
-  constructor() {
+  private constructor() {
     this.listeners = MessageManager.buildListeners();
     this.outboundWindow = new Promise((resolve) => {
       this.resolveOutboundWindow = resolve;

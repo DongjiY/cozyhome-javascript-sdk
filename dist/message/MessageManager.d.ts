@@ -12,7 +12,7 @@ export declare class MessageManager {
     private resolveOutboundWindow;
     private sessionId;
     private resolveSessionId;
-    constructor();
+    private constructor();
     close(): void;
     destroy(): void;
     static getInstance(): MessageManager;
